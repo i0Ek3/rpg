@@ -39,18 +39,10 @@
     <form action="/" method="POST">
         <button type="submit">Generate</button>
     </form>
-    {% if password %}
-        <p>{{ password }}</p>
-    {% endif %}
-    {% if password2 %}
-        <p>{{ password2 }}</p>
-    {% endif %}
-    {% if password3 %}
-        <p>{{ password3 }}</p>
-    {% endif %}
-    {% if password4 %}
-        <p>{{ password4 }}</p>
-    {% endif %}
-    
+    {% for password in password_list %}
+        {% if password %}
+            <p>{{ password }}</p>
+        {% endif %}
+    {% endfor %}
 </body>
 </html>

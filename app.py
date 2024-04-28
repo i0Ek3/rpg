@@ -5,50 +5,100 @@ import string
 app = Flask(__name__)
 
 
-# 生成10-12位字母+数字+特殊字符
+# 常量定义
+SPEC_STR = "!@#$%&*"
+CHOICE_MIX = string.ascii_letters + string.digits
+CHOICE_DIG = string.digits
+CHOICE_LET = string.ascii_letters
+RANDOM_INT = random.randint(10, 12)
+HTML_TEMPLATE = "index.html"
+
+
+# 生成指定长度的由字母+数字+特殊字符组成的密码
 def genpwd(length):
-    characters = string.ascii_letters + string.digits + "!@#$%&*-"
-    password = random.choice(
-        string.ascii_letters + string.digits
-    )  # 确保密码不以特殊字符开头
+    # 确保密码不以特殊字符开头
+    password = random.choice(CHOICE_MIX)
 
-    password += "".join(random.choice(characters) for _ in range(length - 2))
-    password += random.choice(
-        string.ascii_letters + string.digits
-    )  # 确保密码不以特殊字符结尾
+    characters = CHOICE_MIX + SPEC_STR
+    password += "".join(
+        random.choice(characters) for _ in range(length - 2)
+    )
 
-    return password
+    # 确保密码不以特殊字符结尾
+    password += random.choice(CHOICE_MIX)
+
+    return insert_special_character(password, SPEC_STR)
 
 
-# 根据 choice 生成 10-12 位密码
+# 如果生成的密码中不存在特殊字符，则随机插入一个特殊字符到密码中
+def insert_special_character(string, special_characters):
+    has_special_character = False
+
+    for char in special_characters:
+        if char in string:
+            has_special_character = True
+            break
+
+    if not has_special_character:
+        # 随机选择插入位置
+        index = random.randint(1, len(string) - 1)
+        previous_char = string[index - 1]
+        next_char = string[index]
+
+        while previous_char in special_characters or next_char in special_characters:
+            index = random.randint(1, len(string) - 1)
+            previous_char = string[index - 1]
+            next_char = string[index]
+
+        char_to_insert = random.choice(special_characters)
+        string = string[:index] + char_to_insert + string[index:]
+
+    # 删除多余的特殊字符
+    indices = [i for i in range(1, len(string) - 1) if string[i] in special_characters]
+    if len(indices) > 1:
+        index_to_remove = random.choice(indices[:-1])
+        string = string[:index_to_remove] + string[index_to_remove + 1:]
+
+    return string
+
+
+# 移除末尾的连接符-
+def remove_trailing_hyphen(password):
+    last = password[-1]
+    if last == "-":
+        return password[:-1]
+    else:
+        return password
+    
+
+# 根据 choice 生成指定长度的密码
 def genpwd_by(choice):
     password = ""
     for _ in range(3):
         segment = "".join(
             random.choice(choice) for _ in range(4)
         )
-        password += segment + "-"
-    
-    password = password[:-1]  # 移除末尾的连接符-
-    
-    return password
+
+        if choice == CHOICE_MIX:
+            password += segment + "-"
+        else:
+            password += segment
+
+    return remove_trailing_hyphen(password)
 
 
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
-        pwda = genpwd(random.randint(10, 12))
-        pwdb = genpwd_by(string.ascii_letters + string.digits)
-        pwdc = genpwd_by(string.digits)
-        pwdd = genpwd_by(string.ascii_letters)
-        
-        return render_template("index.html", 
-                               password=pwda, 
-                               password2=pwdb, 
-                               password3=pwdc,
-                               password4=pwdd)
-    
-    return render_template("index.html")
+        pwda = genpwd(RANDOM_INT)
+        pwdb = genpwd_by(CHOICE_MIX)
+        pwdc = genpwd_by(CHOICE_DIG)
+        pwdd = genpwd_by(CHOICE_LET)
+
+        # 返回列表，模板引擎可以直接遍历
+        return render_template(HTML_TEMPLATE, password_list = [pwda, pwdb, pwdc, pwdd])
+
+    return render_template(HTML_TEMPLATE)
 
 
 if __name__ == "__main__":
