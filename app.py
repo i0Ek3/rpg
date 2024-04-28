@@ -4,7 +4,7 @@ import string
 
 app = Flask(__name__)
 
-
+# 生成10-12位字母+数字+特殊字符
 def genpwd(length):
     characters = string.ascii_letters + string.digits + "!@#$%&*-"
     password = random.choice(
@@ -16,7 +16,7 @@ def genpwd(length):
     )  # 确保密码不以特殊字符结尾
     return password
 
-
+# 生成10-12位字母+数字
 def genpwd2():
     password = ""
     for _ in range(3):
@@ -27,12 +27,41 @@ def genpwd2():
     password = password[:-1]  # 移除末尾的连接符-
     return password
 
+# 生成10-12位纯数字
+def genpwd3():
+    password = ""
+    for _ in range(3):
+        segment = "".join(
+            random.choice(string.digits) for _ in range(4)
+        )
+        password += segment
+    password = password[:-1]  # 移除末尾的连接符-
+    return password
+
+# 生成10-12位纯字母
+def genpwd4():
+    password = ""
+    for _ in range(3):
+        segment = "".join(
+            random.choice(string.ascii_letters) for _ in range(4)
+        )
+        password += segment
+    password = password[:-1]  # 移除末尾的连接符-
+    return password
+
 
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
-        pwda, pwdb = genpwd2(), genpwd(random.randint(8, 12))
-        return render_template("index.html", password=pwda, password2=pwdb)
+        pwda = genpwd2()
+        pwdb = genpwd(random.randint(10, 12))
+        pwdc = genpwd3()
+        pwdd = genpwd4()
+        return render_template("index.html", 
+                               password=pwda, 
+                               password2=pwdb, 
+                               password3=pwdc,
+                               password4=pwdd)
     return render_template("index.html")
 
 
