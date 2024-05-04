@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>RPG: Random Password Generator</title>
     <style>
@@ -28,21 +29,27 @@
         }
 
         p {
-            align-self: center;
             font-family: "Ubuntu", sans-serif;
-            font-size: 30px;
-            color: black;
+            font-size: 16px;
+            background-color: rgb(177, 238, 249);
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #3cbd8a;
+            border-radius: 4px;
+            backdrop-filter: blur(5px);
         }
     </style>
 </head>
+
 <body>
     <form action="/" method="POST">
         <button type="submit">Generate</button>
     </form>
     {% for password in password_list %}
-        {% if password %}
-            <p>{{ password }}</p>
-        {% endif %}
+    {% if password %}
+    <p>{{ password }}</p>
+    {% endif %}
     {% endfor %}
 </body>
+
 </html>
