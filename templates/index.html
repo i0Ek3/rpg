@@ -90,39 +90,20 @@
             textarea.select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        let passwordItems = document.querySelectorAll('.password-list li');
-        passwordItems.forEach(function(item) {
-            item.addEventListener('click', function() {
-                let password = this.textContent;
-                copyToClipboard(password);
-            });
-        });
-
-        function copyToClipboard(text) {
-            let textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
 
             showCopyMessage();
         }
 
         function showCopyMessage() {
             let message = document.createElement('div');
-            message.textContent = 'Copied!';
+            message.textContent = 'Password Copied!';
+            message.style.fontFamily = '"IBM Plex Mono",monospace';
             message.style.position = 'fixed';
             message.style.top = '10px';
             message.style.left = '50%';
             message.style.transform = 'translateX(-50%)';
             message.style.padding = '10px';
-            message.style.background = '#4a9837';
-            message.style.border = '1px solid #ccc';
+            message.style.background = '#8ab3ad';
             message.style.borderRadius = '4px';
 
             document.body.appendChild(message);
