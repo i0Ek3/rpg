@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>RPG: Random Password Generator</title>
     <style>
@@ -10,46 +9,129 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f2f2f2;
+            background: RGB(247,247,250);
             flex-direction: column;
         }
 
-        button {
-            align-self: center;
-            color: rgb(41, 157, 66);
-            font-size: 24px;
-            margin-bottom: 20px;
-            width: 150px;
-            height: 50px;
+        .generate-button {
+            font-size: large;
+            font-family: "IBM Plex Mono",monospace;
+            padding: 10px 20px;
+            background-color: #000000;
+            color: #fff;
+            border: 1px solid #000000;
             border-radius: 25px;
-            border: none;
-            background-color: rgb(41, 157, 66);
-            color: white;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        p {
-            font-family: "Ubuntu", sans-serif;
-            font-size: 16px;
-            background-color: rgb(177, 238, 249);
+        .generate-button:hover {
+            font-weight: bold;
+            background-color: #000000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            transform: scale(1.1);
+            z-index: 1;
+        }
+
+        .password-list {
+            list-style: none;
             padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #3cbd8a;
+            margin: 10px;
+        }
+
+        .password-list li {
+            font-family: "IBM Plex Mono",monospace;
+            float: left;
+            margin: 10px;
+            padding: 10px;
+            background-color: #8ab3ad;
+            border: none;
             border-radius: 4px;
-            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .password-list li:hover {
+            font-weight: bold;
+            background-color: rgb(177, 238, 249);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            transform: scale(1.1);
+            z-index: 1;
         }
     </style>
 </head>
 
 <body>
-    <form action="/" method="POST">
-        <button type="submit">Generate</button>
-    </form>
+<form action="/" method="POST">
+    <button class="generate-button" type="submit">Generate Your Password</button>
+</form>
+
+<ul class="password-list">
     {% for password in password_list %}
     {% if password %}
-    <p>{{ password }}</p>
+    <li>{{ password }}</li>
     {% endif %}
     {% endfor %}
-</body>
+</ul>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let passwordItems = document.querySelectorAll('.password-list li');
+        passwordItems.forEach(function(item) {
+            item.addEventListener('click', function() {
+                let password = this.textContent;
+                copyToClipboard(password);
+            });
+        });
+
+        function copyToClipboard(text) {
+            let textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let passwordItems = document.querySelectorAll('.password-list li');
+        passwordItems.forEach(function(item) {
+            item.addEventListener('click', function() {
+                let password = this.textContent;
+                copyToClipboard(password);
+            });
+        });
+
+        function copyToClipboard(text) {
+            let textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            showCopyMessage();
+        }
+
+        function showCopyMessage() {
+            let message = document.createElement('div');
+            message.textContent = 'Copied!';
+            message.style.position = 'fixed';
+            message.style.top = '10px';
+            message.style.left = '50%';
+            message.style.transform = 'translateX(-50%)';
+            message.style.padding = '10px';
+            message.style.background = '#4a9837';
+            message.style.border = '1px solid #ccc';
+            message.style.borderRadius = '4px';
+
+            document.body.appendChild(message);
+
+            setTimeout(function() {
+                document.body.removeChild(message);
+            }, 2000);
+        }
+    });
+</script>
+</body>
 </html>
