@@ -1,0 +1,47 @@
+{
+  "name": "password-generator-electron",
+  "version": "0.0.1",
+  "description": "A simple password generator desktop application using Electron written by GPT-4o.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^25.3.0",
+    "electron-builder": "^24.13.3"
+  },
+  "author": "i0Ek3",
+  "license": "MIT",
+  "build": {
+    "appId": "com.i0ek3.pwdgen",
+    "productName": "Password Generator",
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "styles.css",
+      "script.js",
+      "node_modules/**",
+      "assets"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": [
+        "exe"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb"
+      ]
+    }
+  }
+}
