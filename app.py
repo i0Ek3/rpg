@@ -31,35 +31,35 @@ def genpwd(length):
 
 
 # 如果生成的密码中不存在特殊字符，则随机插入一个特殊字符到密码中
-def insert_special_character(string, special_characters):
+def insert_special_character(ori_str, special_characters):
     has_special_character = False
 
     for char in special_characters:
-        if char in string:
+        if char in ori_str:
             has_special_character = True
             break
 
     if not has_special_character:
         # 随机选择插入位置
-        index = random.randint(1, len(string) - 1)
-        previous_char = string[index - 1]
-        next_char = string[index]
+        index = random.randint(1, len(ori_str) - 1)
+        previous_char = ori_str[index - 1]
+        next_char = ori_str[index]
 
         while previous_char in special_characters or next_char in special_characters:
-            index = random.randint(1, len(string) - 1)
-            previous_char = string[index - 1]
-            next_char = string[index]
+            index = random.randint(1, len(ori_str) - 1)
+            previous_char = ori_str[index - 1]
+            next_char = ori_str[index]
 
         char_to_insert = random.choice(special_characters)
-        string = string[:index] + char_to_insert + string[index:]
+        ori_str = ori_str[:index] + char_to_insert + ori_str[index:]
 
     # 删除多余的特殊字符
-    indices = [i for i in range(1, len(string) - 1) if string[i] in special_characters]
+    indices = [i for i in range(1, len(ori_str) - 1) if ori_str[i] in special_characters]
     if len(indices) > 1:
         index_to_remove = random.choice(indices[:-1])
-        string = string[:index_to_remove] + string[index_to_remove + 1:]
+        ori_str = ori_str[:index_to_remove] + ori_str[index_to_remove + 1:]
 
-    return string
+    return ori_str
 
 
 # 移除末尾的连接符-
@@ -79,10 +79,7 @@ def genpwd_by(choice):
             random.choice(choice) for _ in range(4)
         )
 
-        if choice == CHOICE_MIX:
-            password += segment + "-"
-        else:
-            password += segment
+        password += segment
 
     return remove_trailing_hyphen(password)
 
