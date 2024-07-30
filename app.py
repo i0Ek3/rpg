@@ -69,7 +69,7 @@ def remove_trailing_hyphen(password):
         return password[:-1]
     else:
         return password
-    
+
 
 # 根据 choice 生成指定长度的密码
 def genpwd_by(choice):
