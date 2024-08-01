@@ -1,9 +1,8 @@
 # rpg
 
-Random Password Generator written by Poe(GPT-3.5).
+Random Password Generator.
 
-![](https://github.com/i0Ek3/rpg/blob/main/gen.png)
-
+![](https://github.com/i0Ek3/rpg/blob/main/media/web.png)
 
 ## Run Locally
 ```Python
@@ -13,10 +12,4 @@ $ python3 app.py
 ## For Docker Build
 ```Python
 $ ./build.sh
-```
-
-## Try Desktop Version
-```Python
-$ cd desktop/v1 # or cd desktop/v2
-$ npm start
 ```
