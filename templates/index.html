@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>RPG: Random Password Generator</title>
 
@@ -10,13 +11,13 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: RGB(247,247,250);
+            background: RGB(247, 247, 250);
             flex-direction: column;
         }
 
         .generate-button {
             font-size: large;
-            font-family: "IBM Plex Mono",monospace;
+            font-family: "IBM Plex Mono", monospace;
             float: left;
             margin: 10px;
             padding: 10px 20px;
@@ -35,16 +36,26 @@
             z-index: 1;
         }
 
+        .password-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
         .password-list {
             list-style: none;
             padding: 10px;
             margin: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .password-list li {
-            font-family: "IBM Plex Mono",monospace;
-            float: left;
-            margin: 10px;
+            font-family: "IBM Plex Mono", monospace;
+            margin: 0;
             padding: 10px;
             background-color: #8ab3ad;
             border: none;
@@ -63,58 +74,65 @@
 </head>
 
 <body>
-<form action="/" method="POST">
-    <button class="generate-button" type="submit">Generate Your Password</button>
-</form>
+    <form action="/" method="POST">
+        <button class="generate-button" type="submit">Generate Your Password</button>
+    </form>
 
-<ul class="password-list">
-    {% for password in password_list %}
-    {% if password %}
-    <li>{{ password }}</li>
+    {% if password_groups %}
+    <div class="password-container">
+        {% for group in password_groups %}
+        <ul class="password-list">
+            {% for password in group.passwords %}
+            {% if password %}
+            <li>{{ password }}</li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </div>
     {% endif %}
-    {% endfor %}
-</ul>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        let passwordItems = document.querySelectorAll('.password-list li');
-        passwordItems.forEach(function(item) {
-            item.addEventListener('click', function() {
-                let password = this.textContent;
-                copyToClipboard(password);
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let passwordItems = document.querySelectorAll('.password-list li');
+            passwordItems.forEach(function (item) {
+                item.addEventListener('click', function () {
+                    let password = this.textContent;
+                    copyToClipboard(password);
+                });
             });
+
+            function copyToClipboard(text) {
+                let textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+
+                showCopyMessage();
+            }
+
+            function showCopyMessage() {
+                let message = document.createElement('div');
+                message.textContent = 'Password Copied!';
+                message.style.fontFamily = '"IBM Plex Mono",monospace';
+                message.style.position = 'fixed';
+                message.style.top = '10px';
+                message.style.left = '50%';
+                message.style.transform = 'translateX(-50%)';
+                message.style.padding = '10px';
+                message.style.background = '#8ab3ad';
+                message.style.borderRadius = '4px';
+
+                document.body.appendChild(message);
+
+                setTimeout(function () {
+                    document.body.removeChild(message);
+                }, 2000);
+            }
         });
-
-        function copyToClipboard(text) {
-            let textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-
-            showCopyMessage();
-        }
-
-        function showCopyMessage() {
-            let message = document.createElement('div');
-            message.textContent = 'Password Copied!';
-            message.style.fontFamily = '"IBM Plex Mono",monospace';
-            message.style.position = 'fixed';
-            message.style.top = '10px';
-            message.style.left = '50%';
-            message.style.transform = 'translateX(-50%)';
-            message.style.padding = '10px';
-            message.style.background = '#8ab3ad';
-            message.style.borderRadius = '4px';
-
-            document.body.appendChild(message);
-
-            setTimeout(function() {
-                document.body.removeChild(message);
-            }, 2000);
-        }
-    });
-</script>
+    </script>
 </body>
+
 </html>
