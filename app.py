@@ -43,10 +43,10 @@ def genpwd(length=None):
     return first + "".join(middle) + last
 
 
-# 根据 choice 生成指定长度（12-16）的密码
+# 根据 choice 生成指定长度（16-20）的密码
 def genpwd_by(choice, length=None):
     if length is None:
-        length = random.randint(12, 16)
+        length = random.randint(16, 20)
     return "".join(random.choice(choice) for _ in range(length))
 
 
