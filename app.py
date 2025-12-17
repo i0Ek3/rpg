@@ -5,6 +5,7 @@ import string
 app = Flask(__name__)
 
 # 常量定义
+LENGTH = random.randint(16, 20)
 SPEC_STR = "!@#$%&*"
 CHOICE_MIX = string.ascii_letters + string.digits
 CHOICE_DIG = string.digits
@@ -15,7 +16,7 @@ HTML_TEMPLATE = "index.html"
 # 生成指定长度的由字母+数字+特殊字符组成的密码
 def genpwd(length=None):
     if length is None:
-        length = random.randint(12, 16)
+        length = LENGTH
         
     # 确保首尾不是特殊字符
     # 0 和 -1 位置使用 CHOICE_MIX
@@ -46,7 +47,7 @@ def genpwd(length=None):
 # 根据 choice 生成指定长度（16-20）的密码
 def genpwd_by(choice, length=None):
     if length is None:
-        length = random.randint(16, 20)
+        length = LENGTH
     return "".join(random.choice(choice) for _ in range(length))
 
 
