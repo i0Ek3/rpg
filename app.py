@@ -54,11 +54,20 @@ def genpwd_by(choice, length=None):
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
+        try:
+            length = int(request.form.get("length", 16))
+            if length < 8:
+                length = 8
+            elif length > 20:
+                length = 20
+        except ValueError:
+            length = 16
+
         # 每种类型生成5个密码
-        pwda_list = [genpwd() for _ in range(5)]
-        pwdb_list = [genpwd_by(CHOICE_MIX) for _ in range(5)]
-        pwdc_list = [genpwd_by(CHOICE_DIG) for _ in range(5)]
-        pwdd_list = [genpwd_by(CHOICE_LET) for _ in range(5)]
+        pwda_list = [genpwd(length) for _ in range(5)]
+        pwdb_list = [genpwd_by(CHOICE_MIX, length) for _ in range(5)]
+        pwdc_list = [genpwd_by(CHOICE_DIG, length) for _ in range(5)]
+        pwdd_list = [genpwd_by(CHOICE_LET, length) for _ in range(5)]
 
         # 构建分组数据（包含类别名称和对应密码列表，更友好）
         password_groups = [
@@ -68,7 +77,7 @@ def home():
             {"name": "纯字母", "passwords": pwdd_list},
         ]
         # 传递分组数据给模板（替换原来的password_list）
-        return render_template(HTML_TEMPLATE, password_groups=password_groups)
+        return render_template(HTML_TEMPLATE, password_groups=password_groups, length=length)
 
     return render_template(HTML_TEMPLATE)
 
