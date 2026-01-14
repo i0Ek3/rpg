@@ -1,5 +1,13 @@
 {
   "dependencies": {
     "canvas-confetti": "^1.9.3"
+  },
+  "homepage": "https://i0ek3.github.io/rpg",
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }

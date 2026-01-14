@@ -127,3 +127,25 @@ h1 {
 .copy-toast.show {
     opacity: 1;
 }
+
+.footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
+
+.github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.github-link:hover {
+    color: #8ab3ad;
+}
